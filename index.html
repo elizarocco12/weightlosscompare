@@ -348,7 +348,17 @@ footer{background:var(--gray-800);color:var(--gray-400);padding:1.5rem 1rem;marg
   .surgery-pros-cons{grid-template-columns:1fr}
   thead th,td{padding:0.5rem 0.75rem}
   .top-banner-form input{min-width:140px}
+  /* Calculator: full-width on mobile */
+  .calc-tab-wrap{padding:1rem 0 0}
+  .calc-iframe-wrap{border-radius:0;border-left:none;border-right:none;margin:0 -1rem}
+  .calc-iframe-wrap iframe{height:100svh;min-height:600px}
+  #calcStickyTab{display:none!important}
 }
+
+/* STICKY CALCULATOR TAB (desktop only) */
+#calcStickyTab{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:199;display:none}
+#calcStickyTab button{background:var(--primary);color:#fff;border:none;border-radius:12px 0 0 12px;padding:1rem 0.65rem;cursor:pointer;writing-mode:vertical-rl;text-orientation:mixed;font-size:0.74rem;font-weight:700;letter-spacing:0.08em;box-shadow:-3px 0 16px rgba(0,0,0,0.2);transition:background 0.2s,box-shadow 0.2s;line-height:1.2}
+#calcStickyTab button:hover{background:var(--primary-dark);box-shadow:-4px 0 20px rgba(0,0,0,0.3)}
 </style>
 </head>
 <body>
@@ -405,9 +415,9 @@ footer{background:var(--gray-800);color:var(--gray-400);padding:1.5rem 1rem;marg
 
 <div class="stats-bar">
   <div class="stats-bar-inner">
-    <div class="stat-item"><span>💉</span><span>Cheapest Mounjaro 2.5mg: <strong>£133.19 (Medino)</strong></span></div>
-    <div class="stat-item"><span>💊</span><span>Cheapest Wegovy 0.25mg: <strong>£86.39 (Medino)</strong></span></div>
-    <div class="stat-item"><span>💊</span><span>Orlistat (prescription) from: <strong>£29.95/month</strong></span></div>
+    <div class="stat-item"><span>💉</span><span>Cheapest Mounjaro 2.5mg: <strong>£148 (Chemist4U)</strong></span></div>
+    <div class="stat-item"><span>💊</span><span>Cheapest Wegovy 0.25mg: <strong>£98.98 (Asda)</strong></span></div>
+    <div class="stat-item"><span>💊</span><span>Orlistat (prescription) from: <strong>£17.49/month</strong></span></div>
     <div class="stat-item"><span>🍃</span><span>Meal plans from: <strong>£2.50/day</strong></span></div>
     <div class="stat-item"><span>🏥</span><span>Surgery from: <strong>£3,000 (balloon)</strong></span></div>
     <div class="stat-item"><span>🤝</span><span>Slimming clubs from: <strong>£10.95/mo</strong></span></div>
@@ -418,7 +428,7 @@ footer{background:var(--gray-800);color:var(--gray-400);padding:1.5rem 1rem;marg
 </div>
 
 <div class="disclaimer">
-  <div class="disclaimer-inner">⚠️ <strong>Disclaimer:</strong> Prices updated weekly but may vary — always verify with the provider. Not medical advice.</div>
+  <div class="disclaimer-inner">⚠️ <strong>Disclaimer:</strong> Prices sourced directly from provider websites (June 2026) and may change — always verify before purchasing. Not medical advice.</div>
 </div>
 
 <div class="tabs-wrap">
@@ -464,13 +474,13 @@ footer{background:var(--gray-800);color:var(--gray-400);padding:1.5rem 1rem;marg
   <div style="margin-top:0.5rem;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:0.6rem 0.85rem;font-size:0.75rem;color:#92400e;line-height:1.5">💡 <strong>Prices shown are listed medication costs (June 2026).</strong> Delivery fees (typically £2.99–£9.95) may apply on top. Some providers bundle needles, wipes &amp; sharps bins in the price; others charge separately. Introductory first-order discounts are <em>not</em> shown — always check the ongoing monthly price. Verify the total at checkout before ordering.</div>
   <div class="pill-hero" style="margin-top:2rem">
     <div class="pill-hero-text">
-      <div class="pill-coming-soon">⏳ Coming Soon</div>
-      <h2>Oral GLP-1 Weight Loss Pills Are Coming to the UK</h2>
-      <p>Oral semaglutide and other oral GLP-1 options are in late-stage trials and expected in the UK in 2026–2027. Subscribe to be first to know pricing and availability.</p>
+      <div class="pill-coming-soon" style="background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.4);color:#16a34a">✅ Now Launched</div>
+      <h2>Oral GLP-1 Weight Loss Pills Are Now Available in the UK</h2>
+      <p>Oral semaglutide weight loss pills have launched in the UK. Compare prices across providers using our Pills tab above.</p>
     </div>
     <div class="pill-hero-cta">
       <div class="pill-hero-icon">💊</div>
-      <button class="pill-notify-btn" onclick="document.getElementById('inlineEmailWrap').scrollIntoView({behavior:'smooth'})">Notify Me When Available</button>
+      <button class="pill-notify-btn" onclick="[...document.querySelectorAll('.tab-btn')].find(b=>b.textContent.includes('Pills'))?.click()">Compare Oral GLP-1 Pills</button>
     </div>
   </div>
   <div id="inlineEmailWrap" class="email-form-wrap" style="margin-top:1rem">
@@ -587,6 +597,11 @@ footer{background:var(--gray-800);color:var(--gray-400);padding:1.5rem 1rem;marg
   </div>
 </div>
 
+<!-- Sticky calculator tab (desktop only) -->
+<div id="calcStickyTab">
+  <button onclick="document.getElementById('calcPopup').classList.add('show')" title="Open Cost Calculator">🧮 Cost Calculator</button>
+</div>
+
 <div id="calcPopup">
   <div class="calc-popup-box">
     <button class="calc-popup-close" onclick="closeCalcPopup()" aria-label="Close">✕</button>
@@ -618,7 +633,7 @@ footer{background:var(--gray-800);color:var(--gray-400);padding:1.5rem 1rem;marg
 
 <script>
 
-const DATA={mounjaro:{doses:['2.5mg','5mg','7.5mg','10mg','12.5mg','15mg'],providers:[{name:'Medino',url:'https://medino.com',prices:[133.19,152.99,224.99,242.99,269.99,287.99]},{name:'Slinic',url:'https://slinic.co.uk',prices:[139,165,225,255,275,285]},{name:'Chemist Click',url:'https://chemistclick.co.uk',prices:[148.00,179.00,226.00,279.00,289.00,299.00]},{name:'Asda',url:'https://asda.com/pharmacy',prices:[148.97,192.47,252.47,282.47,292.47,302.47]},{name:'Oxford Online Pharmacy',url:'https://oxfordonlinepharmacy.co.uk',prices:[148.99,189.99,248.96,278.96,289.98,299.98]},{name:'Bolt Pharmacy',url:'https://boltpharmacy.co.uk',prices:[149,179,239,269,289,299]},{name:'SheMed',url:'https://shemed.co.uk',prices:[149,null,null,null,null,null]},{name:'Well Pharmacy',url:'https://wellpharmacy.com',prices:[153.95,203.95,253.95,289.00,309.00,319.00]},{name:'Cloud Pharmacy',url:'https://cloudpharmacy.co.uk',prices:[164.99,174.99,234.99,259.99,274.99,294.99]},{name:'Simple Online Pharmacy',url:'https://simpleonlinepharmacy.co.uk',prices:[173.00,203.99,263.99,303.99,313.99,323.99]},{name:'Boots',url:'https://boots.com',prices:[176.97,189.97,267.97,302.97,314.97,334.97]},{name:'MedExpress',url:'https://medexpress.co.uk',prices:[183.94,193.94,253.94,283.94,293.94,313.94]},{name:'Morrisons',url:'https://morrisons.com/pharmacy',prices:[169,189,249,279,null,null]},{name:'Pharmacy2U',url:'https://pharmacy2u.co.uk',prices:[189.99,214.99,264.99,294.99,309.99,324.99]},{name:'Juniper',url:'https://juniper.health',prices:[189,199,259,299,null,null]},{name:'Superdrug',url:'https://superdrug.com/pharmacy',prices:[195.00,245.00,295.00,335.00,345.00,370.00]},{name:'Numan',url:'https://numan.com',prices:[229,239,269,299,319,339]},{name:'LYV Pharmacy',url:'https://lyvpharmacy.co.uk',prices:[null,null,null,null,null,null]},{name:'For Hers',url:'https://forhers.com/uk',prices:[null,null,null,null,null,null]}]},wegovy:{doses:['0.25mg','0.5mg','1mg','1.7mg','2.4mg'],providers:[{name:'Medino',url:'https://medino.com',prices:[86.39,89.99,95.39,152.99,206.99]},{name:'Pharmacy2U',url:'https://pharmacy2u.co.uk',prices:[94.99,114.99,144.99,168.99,189.99]},{name:'Pillsorted',url:'https://pillsorted.com',prices:[96.00,116.00,122.00,166.00,186.00]},{name:'Slinic',url:'https://slinic.co.uk',prices:[99.99,109.99,114.99,159.99,209.99]},{name:'Morrisons',url:'https://morrisons.com/pharmacy',prices:[99,119,149,179,199]},{name:'Bolt Pharmacy',url:'https://boltpharmacy.co.uk',prices:[99,119,149,179,209]},{name:'Superdrug',url:'https://superdrug.com/pharmacy',prices:[99.00,119.00,166.00,192.00,205.00]},{name:'Boots',url:'https://boots.com',prices:[99.97,119.97,166.97,192.97,205.97]},{name:'MedExpress',url:'https://medexpress.co.uk',prices:[99.99,119.99,149.99,179.99,199.99]},{name:'SheMed',url:'https://shemed.co.uk',prices:[99,159,159,159,159]},{name:'Asda',url:'https://asda.com/pharmacy',prices:[109,129,159,189,219]},{name:'Simple Online Pharmacy',url:'https://simpleonlinepharmacy.co.uk',prices:[119.00,119.00,125.00,169.00,198.96]},{name:'Numan',url:'https://numan.com',prices:[119,139,179,219,249]},{name:'Juniper',url:'https://juniper.health',prices:[119,139,169,199,229]}]}};
+const DATA={mounjaro:{doses:['2.5mg','5mg','7.5mg','10mg','12.5mg','15mg'],providers:[{name:'Chemist4U',url:'https://www.chemist-4-u.com',prices:[148.00,188.00,248.00,278.00,288.00,298.00]},{name:'Asda Online Doctor',url:'https://onlinedoctor.asda.com/uk',prices:[148.97,188.97,248.97,278.97,288.97,298.97]},{name:'Pharmacy Advance',url:'https://pharmacyadvance.co.uk',prices:[154.99,174.99,244.99,274.99,294.99,314.99]},{name:'WePrescribe',url:'https://weprescribe.co.uk',prices:[159.99,184.99,239.99,257.99,284.99,299.99]},{name:'Cloud Pharmacy',url:'https://cloudpharmacy.co.uk',prices:[164.99,174.99,234.99,259.99,274.99,294.99]},{name:'The Family Chemist',url:'https://thefamilychemist.co.uk',prices:[164.99,174.99,234.99,259.99,274.99,294.99]},{name:'Curate Health',url:'https://curatehealth.co.uk',prices:[165.00,180.00,240.00,270.00,290.00,310.00]},{name:'Well Pharmacy',url:'https://well.co.uk',prices:[149.00,189.00,249.00,289.00,309.00,319.00]},{name:'Morrisons Clinic',url:'https://clinic.morrisons.com',prices:[169.00,169.00,199.00,249.00,279.00,299.00]},{name:'Bolt Pharmacy',url:'https://boltpharmacy.co.uk',prices:[169.00,199.00,259.00,289.00,309.00,319.00]},{name:'PillTime',url:'https://pilltime.co.uk',prices:[169.00,193.00,254.00,284.00,299.00,313.00]},{name:'Rowlands Pharmacy',url:'https://rowlandspharmacy.co.uk',prices:[169.99,198.99,265.99,289.99,309.99,325.99]},{name:'Pharmacy2U',url:'https://pharmacy2u.co.uk',prices:[169.99,189.99,244.99,279.99,289.99,299.99]},{name:'Zava',url:'https://www.zavamed.com/uk',prices:[169.99,187.99,249.99,279.99,299.99,309.99]},{name:'Superdrug Online Doctor',url:'https://onlinedoctor.superdrug.com',prices:[176.00,189.00,267.00,302.00,314.00,334.00]},{name:'E-Surgery',url:'https://e-surgery.com',prices:[176.46,211.71,282.29,317.59,341.13,359.95]},{name:'Boots Online Doctor',url:'https://onlinedoctor.boots.com',prices:[176.97,189.97,267.97,302.97,314.97,334.97]},{name:'MedExpress',url:'https://medexpress.co.uk',prices:[179.99,189.99,249.99,279.99,299.99,309.99]},{name:'Simply Meds Online',url:'https://simplymedsonline.co.uk',prices:[179.99,189.99,249.99,279.99,299.99,319.99]},{name:'Health Express',url:'https://healthexpress.eu/uk',prices:[179.99,199.99,249.99,279.99,299.99,309.99]},{name:'Lloyds Pharmacy',url:'https://onlinedoctor.lloydspharmacy.com',prices:[179.99,189.99,249.99,279.99,299.99,309.99]},{name:'Independent Pharmacy',url:'https://theindependentpharmacy.co.uk',prices:[179.99,199.99,259.99,289.99,304.99,329.99]},{name:'Mayfair Weight Loss Clinic',url:'https://mayfairweightlossclinic.co.uk',prices:[189.00,230.00,306.00,330.00,347.00,367.00]},{name:'Numan',url:'https://numan.com',prices:[209.00,239.00,289.00,309.00,329.00,339.00]},{name:'London Slimming Clinic',url:'https://londonslimmingclinic.co.uk',prices:[210.00,235.00,315.00,340.00,355.00,375.00]},{name:'Voy',url:'https://joinvoy.com',prices:[214.00,244.00,294.00,324.00,344.00,359.00]}]},wegovy:{doses:['0.25mg','0.5mg','1mg','1.7mg','2.4mg','7.2mg'],providers:[{name:'Asda Online Doctor',url:'https://onlinedoctor.asda.com/uk',prices:[98.98,118.97,148.97,178.97,198.97,248.99]},{name:'Chemist4U',url:'https://www.chemist-4-u.com',prices:[99.00,109.00,119.00,169.00,199.00,279.00]},{name:'ZAVA',url:'https://www.zavamed.com/uk',prices:[99.00,119.99,149.99,168.99,189.99,null]},{name:'MedExpress',url:'https://medexpress.co.uk',prices:[99.99,119.99,149.99,179.99,199.99,279.99]},{name:'Oxford Online Pharmacy',url:'https://oxfordonlinepharmacy.co.uk',prices:[99.99,128.96,148.96,178.96,198.96,null]},{name:'The Independent Pharmacy',url:'https://theindependentpharmacy.co.uk',prices:[104.99,129.99,144.99,169.99,189.99,null]},{name:'Cloud Pharmacy',url:'https://cloudpharmacy.co.uk',prices:[114.99,119.99,124.99,149.99,174.99,null]},{name:'WePrescribe',url:'https://weprescribe.co.uk',prices:[114.99,119.99,139.99,174.99,239.99,null]},{name:'Phlo Clinic',url:'https://phloclinic.co.uk',prices:[119.00,139.00,169.00,189.00,199.00,null]},{name:'Bolt Pharmacy',url:'https://boltpharmacy.co.uk',prices:[119.00,129.00,139.00,169.00,189.00,null]},{name:'Morrisons Clinic',url:'https://clinic.morrisons.com',prices:[119.00,139.00,169.00,189.00,199.00,null]},{name:'Pharmacy2U',url:'https://pharmacy2u.co.uk',prices:[119.28,144.00,152.99,193.62,214.00,null]},{name:'Simple Online Pharmacy',url:'https://simpleonlinepharmacy.co.uk',prices:[119.99,134.99,149.99,199.99,249.99,329.00]},{name:'Simply Meds Online',url:'https://simplymedsonline.co.uk',prices:[119.99,134.99,149.99,199.99,244.99,null]},{name:'Boots Online Doctor',url:'https://onlinedoctor.boots.com',prices:[125.10,158.00,167.00,193.00,206.00,null]},{name:'Well Pharmacy',url:'https://well.co.uk',prices:[129.00,149.00,149.00,197.00,219.00,null]},{name:'Medicspot',url:'https://medicspot.co.uk',prices:[139.00,159.00,179.00,199.00,219.00,269.00]},{name:'Lloyds Pharmacy',url:'https://onlinedoctor.lloydspharmacy.com',prices:[139.00,184.00,184.00,200.00,215.00,null]},{name:'Superdrug Online Doctor',url:'https://onlinedoctor.superdrug.com',prices:[null,169.00,179.00,199.00,219.00,null]},{name:'Numan',url:'https://numan.com',prices:[179.00,209.00,209.00,249.00,299.00,359.00]}]}};
 let currentDrug='mounjaro';
 function setDrug(drug,btn){currentDrug=drug;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const sel=document.getElementById('doseSelect');sel.innerHTML=DATA[drug].doses.map((d,i)=>`<option value="${i}">${d}</option>`).join('');render()}
 function render(){const d=DATA[currentDrug];const di=parseInt(document.getElementById('doseSelect').value);document.getElementById('tableHead').innerHTML='<tr><th>Provider</th>'+d.doses.map(dose=>`<th style="text-align:right">${dose}</th>`).join('')+'</tr>';const cheap=d.doses.map((_,i)=>{const v=d.providers.map(p=>p.prices[i]).filter(v=>v!=null);return v.length?Math.min(...v):null});const pricey=d.doses.map((_,i)=>{const v=d.providers.map(p=>p.prices[i]).filter(v=>v!=null);return v.length?Math.max(...v):null});const sorted=[...d.providers].sort((a,b)=>(a.prices[di]??Infinity)-(b.prices[di]??Infinity));document.getElementById('tableBody').innerHTML=sorted.map(p=>{const cells=d.doses.map((_,i)=>{const v=p.prices[i];if(v==null)return'<td class="price na">—</td>';const c=v===cheap[i];const x=v===pricey[i]&&v!==cheap[i];return`<td class="price ${c?'cheapest':x?'priciest':''}">${c?'<span class="trophy">🏆</span>':''}£${v.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>`}).join('');return`<tr><td class="provider-name">${p.name}<a class="provider-link" href="${p.url}" target="_blank" rel="noopener">Visit →</a></td>${cells}</tr>`}).join('')}
@@ -2046,6 +2061,11 @@ function maybeShowCalcPopup(){
 document.getElementById('calcPopup').addEventListener('click',function(e){if(e.target===this)closeCalcPopup();});
 maybeShowCalcPopup();
 
+// Show sticky calc tab on desktop after 2s
+if(window.innerWidth>768){
+  setTimeout(()=>{const t=document.getElementById('calcStickyTab');if(t)t.style.display='block';},2000);
+}
+
 function scrollToEmailForm(){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('tab-glp1').classList.add('active');document.querySelector('.tab-btn').classList.add('active');document.getElementById('filterBar').style.display='flex';setTimeout(()=>document.getElementById('inlineEmailWrap').scrollIntoView({behavior:'smooth',block:'center'}),100)}
 
 let stickyDismissed=false;
@@ -2057,7 +2077,8 @@ function dismissSticky(){stickyDismissed=true;document.getElementById('stickyBar
 function showSuccessPopup(){document.getElementById('successPopup').classList.add('show')}
 function closePopup(){document.getElementById('successPopup').classList.remove('show')}
 window.addEventListener('scroll',()=>{if(stickyDismissed)return;document.getElementById('stickyBar').classList.toggle('visible',window.scrollY>400)},{passive:true});
-document.addEventListener('DOMContentLoaded',()=>{render()});
+render();
+window.onload=()=>{if(!document.getElementById('tableBody').innerHTML)render();};
 
 </script>
 </body>
