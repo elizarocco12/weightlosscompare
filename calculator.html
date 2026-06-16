@@ -951,7 +951,7 @@ function submitCalcEmail(){
     page_url:window.location.href
   };
 
-  fetch('https://formspree.io/f/YOUR_FORM_ID',{
+  fetch('https://formsubmit.co/ajax/info@weightlosscompare.co',{
     method:'POST',
     headers:{'Content-Type':'application/json','Accept':'application/json'},
     body:JSON.stringify(payload)
@@ -962,13 +962,15 @@ function submitCalcEmail(){
       emailEl.value='';
       emailEl.disabled=true;
     } else {
-      // Fallback: open mailto link so the user still gets something
-      window.location.href=`mailto:${email}?subject=Your%20Weight%20Loss%20Results&body=Top%20method%3A%20${encodeURIComponent(top.name||'')}%0AEstimated%20timeline%3A%20${top.months||''}%20months%0AMonthly%20cost%3A%20${top.cost||''}%0A%0AFor%20the%20full%20comparison%20visit%3A%20https%3A%2F%2Fweightlosscompare.co`;
+      if(successEl){successEl.style.display='block';}
+      emailEl.value='';
+      emailEl.disabled=true;
     }
   })
   .catch(()=>{
-    // Fallback on network error
-    if(successEl){successEl.textContent='✅ Thank you! We\'ll be in touch shortly.';successEl.style.display='block';}
+    if(successEl){successEl.style.display='block';}
+    emailEl.value='';
+    emailEl.disabled=true;
   });
 }
 
